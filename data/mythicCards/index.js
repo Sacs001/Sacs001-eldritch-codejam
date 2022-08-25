@@ -1,9 +1,10 @@
-import brownCards from './brown';
-import blueCards from './blue';
-import greenCards from './green';
+import brownCards from '../mythicCards/brown/index.js';
+import blueCards from '../mythicCards/blue/index.js';
+import greenCards from '../mythicCards/green/index.js';
 
-export {
-  brownCards,
+
+const cards = [brownCards,
   blueCards,
-  greenCards
-}
+  greenCards];
+
+export default cards 

@@ -1,0 +1,192 @@
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: hidden
+}
+
+.main_bg {
+    width: 100%;
+    height: 100vh;
+    background: url('../assets/home.png')no-repeat;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.creater_colod {
+    color: aliceblue;
+    text-align: center;
+    padding-top: 2vh;
+}
+
+.alert {
+    position: absolute;
+    color: red;
+    font-size: 18px;
+    top: 20vh;
+    right: 40vw;
+}
+
+.difficult {
+    height: 45vh;
+    width: 20vw;
+    position: absolute;
+    top: 32vh;
+    right: 39vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3vh 0vh;
+}
+
+.diff_btn {
+    height: 8vh;
+    width: 11vw;
+    background-color: rgb(132, 194, 157);
+    color: aliceblue;
+    border: none;
+}
+
+.diff_btn:hover {
+    border: 2px dashed red;
+}
+
+.diff_btn:active {
+    border: 4px solid red
+}
+
+.diff_btn:focus {
+    border: 4px solid red
+}
+
+.card_monster {
+    padding-left: 40px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 8px;
+}
+
+.card {
+    width: 223px;
+    height: 300px;
+}
+
+.card:hover {
+    border: 2px dashed red;
+}
+
+.card:active {
+    border: 2px solid red
+}
+
+.card:focus {
+    border: 2px solid red
+}
+
+.num_1 {
+    background: url("../assets/Ancients/Azathoth.png")no-repeat center/contain;
+}
+
+.num_2 {
+    background: url("../assets/Ancients/Cthulthu.png")no-repeat center/contain;
+}
+
+.num_3 {
+    background: url("../assets/Ancients/IogSothoth.png")no-repeat center/contain;
+}
+
+.num_4 {
+    background: url("../assets/Ancients/ShubNiggurath.png")no-repeat center/contain;
+}
+
+
+.stages_game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding-right: 34vh;
+}
+
+.btn_start {
+    background-color: brown;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    height: 4vh;
+}
+
+.btn_start:hover {
+    background-color: rgba(83, 29, 29, 0.171);
+    transition: 1s;
+}
+
+.text {
+    color: aliceblue;
+}
+
+.circle {
+    height: 25px;
+    width: 25px;
+    /* background-color: red; */
+    margin-right: 2px;
+    border-radius: 15px;
+}
+
+.circles {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+}
+
+.first {
+    background-color: red;
+}
+
+.second {
+    background-color: gold;
+}
+
+.third {
+    background-color: blue;
+}
+
+.num_card {
+    color: aliceblue;
+    text-align: center;
+
+}
+
+.card_shirt {
+    margin-top: 10vh;
+    display: flex;
+}
+
+.back {
+    width: 140px;
+    height: 210px;
+    background: url("../assets/mythicCardBackground.png");
+}
+
+.back:hover {
+    border: 2px dashed red;
+}
+
+.back:active {
+    border: 2px solid red
+}
+
+.back:focus {
+    border: 2px solid red
+}
+
+.face {
+    width: 140px;
+    height: 210px;
+    background-color: antiquewhite;
+    margin-left: 10px;
+}
