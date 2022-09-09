@@ -6,12 +6,7 @@ let infoForShuffleTheDeck = {
     'difficulty': ''
 };
 
-// let greenCard = '';
-// let brownCard = '';
-// let blueCard = '';
-let brownDiff = [];
-let greenDiff = [];
-let blueDiff = [];
+
 let scoupCard = [];
 let greenCard = '';
 let blueCard = '';
@@ -20,18 +15,38 @@ let massiveWithCardMediumLevelBrown = [];
 let massiveWithCardMediumLevelBlue = [];
 let massiveWithCardMediumLevelGreen = [];
 
-cards[0].forEach((el) => {
-    if (el.difficulty == "medium") massiveWithCardMediumLevelBrown.push(el)
-})
+let cardShirtFace = document.querySelector('.face')
+let cardShirtBack = document.querySelector('.back')             //лицо и затылок переключения карт
 
+//circles
+let brownFirst = document.querySelector('.brown_first');
+let blueFirst = document.querySelector('.blue_first');
+let greenFirst = document.querySelector('.green_first');
+
+let brownSecond = document.querySelector('.brown_second');
+let blueSecond = document.querySelector('.blue_second');
+let greenSecond = document.querySelector('.green_second');
+
+let brownThird = document.querySelector('.brown_third');
+let blueThird = document.querySelector('.blue_third');
+let greenThird = document.querySelector('.green_third');
+
+let numListener = 0;
+
+let shirt = ''
+
+
+
+cards[0].forEach((el) => {
+    if (el.difficulty == "normal") massiveWithCardMediumLevelBrown.push(el)
+})
 cards[1].forEach((el) => {
-    if (el.difficulty == "medium") massiveWithCardMediumLevelBlue.push(el)     //список с картами среднего уровня
+    if (el.difficulty == "normal") massiveWithCardMediumLevelBlue.push(el)     //список с картами среднего уровня
 })
 cards[2].forEach((el) => {
-    if (el.difficulty == "medium") massiveWithCardMediumLevelGreen.push(el)
+    if (el.difficulty == "normal") massiveWithCardMediumLevelGreen.push(el)
 })
 
-console.log(ancientsMonster)
 let chooseMonsterDifficulty = document.querySelector('.alert');
 //нажатие кнопок
 document.addEventListener('click', (event) => {
@@ -57,7 +72,7 @@ document.addEventListener('click', (event) => {
         case 'easy':
             infoForShuffleTheDeck.difficulty = event.target.id
             break
-        case 'medium':
+        case 'normal':
             infoForShuffleTheDeck.difficulty = event.target.id
             break
         case 'hard':
@@ -72,127 +87,122 @@ document.addEventListener('click', (event) => {
 
 
 // функция замешивания
-document.querySelector('.btn_start').addEventListener('click', () => {
+
+function stir() {
+    numListener++;
     if (infoForShuffleTheDeck.god !== '' && infoForShuffleTheDeck.difficulty !== '') {
         ancientsMonster.forEach((el) => {                       //смотрим сколько карт нужно разного цвета
             if (infoForShuffleTheDeck.god == el.id) {
                 greenCard = el.firstStage.greenCards + el.secondStage.greenCards + el.thirdStage.greenCards
                 blueCard = el.firstStage.blueCards + el.secondStage.blueCards + el.thirdStage.blueCards
                 brownCard = el.firstStage.brownCards + el.secondStage.brownCards + el.thirdStage.brownCards
-                // console.log(greenCard)
-                // console.log(blueCard)
-                // console.log(brownCard)
             }
         })
     } else console.log(`Error push info`)
-    // console.log(greenCard)
-    chooseDifficulty(infoForShuffleTheDeck.difficulty)
 
-    shuffle(greenDiff);
-    shuffle(blueDiff);
-    shuffle(brownDiff);
 
-    let green = addCard(greenCard, greenDiff);
-    let blue = addCard(blueCard, blueDiff);  //массивы для каждого монстра
-    let brown = addCard(brownCard, brownDiff);
-    console.log(greenDiff)
+    let scoups = chooseDifficulty(infoForShuffleTheDeck.difficulty);
+
+    shuffle(scoups[2]);
+    shuffle(scoups[1]);
+    shuffle(scoups[0]);
+
+    let green = addCard(greenCard, scoups[2]);
+    let blue = addCard(blueCard, scoups[1]);  //массивы для каждого монстра
+    let brown = addCard(brownCard, scoups[0]);
+
     if (infoForShuffleTheDeck.difficulty == 'veryEasy') {
-        addMisssingCard(greenCard, greenDiff, massiveWithCardMediumLevelGreen)
-        addMisssingCard(brownCard, brownDiff, massiveWithCardMediumLevelBrown)  //добавление карт, если их не хватает другой сложности
-        addMisssingCard(blueCard, blueDiff, massiveWithCardMediumLevelBlue)
+        addMisssingCard(greenCard, scoups[2], massiveWithCardMediumLevelGreen)
+        addMisssingCard(brownCard, scoups[0], massiveWithCardMediumLevelBrown)  //добавление карт, если их не хватает другой сложности
+        addMisssingCard(blueCard, scoups[1], massiveWithCardMediumLevelBlue)
     } else if (infoForShuffleTheDeck.difficulty == 'veryHard') {
-
-        addMisssingCard(greenCard, greenDiff, massiveWithCardMediumLevelGreen)
-        addMisssingCard(brownCard, brownDiff, massiveWithCardMediumLevelBrown)  //добавление карт, если их не хватает другой сложности
-        addMisssingCard(blueCard, blueDiff, massiveWithCardMediumLevelBlue)
+        addMisssingCard(greenCard, scoups[2], massiveWithCardMediumLevelGreen)
+        addMisssingCard(brownCard, scoups[0], massiveWithCardMediumLevelBrown)  //добавление карт, если их не хватает другой сложности
+        addMisssingCard(blueCard, scoups[1], massiveWithCardMediumLevelBlue)
     }
 
-    // function addMisssingCard(colorCard, colorDiff, additionalMassiv) {             // проверка хватает ли карт для замешивания
+    shirt = sortByStage(ancientsMonster, green, blue, brown);
+    return shirt
+}
+let scoupEnded = []
+function mainFunc() {
+    document.querySelector('.btn_start').addEventListener('click', () => {
+        scoupEnded = stir()
 
-    //     if (colorDiff.length < colorCard.length) {
-    //         let i = colorCard.length - colorDiff.length
-    //         for (i; i > 0; i--) {
-    //             console.log(additionalMassiv)
-    //             colorDiff.push(shuffle(additionalMassiv).pop);
-    //         }
-    //     }
-    // }
-    // console.log(green);
-    // console.log(blue);
-    // console.log(brown);
-})
+        return scoupEnded
+    })
+
+    document.addEventListener('click', (event) => {
+        if (scoupEnded.length !== 0) {
+            cardShirtBack.classList.add('active_back');
+        } else {
+            cardShirtBack.classList.remove('active_back')
+        }
+        if (event.target.classList.contains('back')) {
+            let cardFace = scoupEnded.shift()
+            console.log(cardFace)
+            console.log(scoupEnded.length)
+            cardShirtFace.style.background = `url(${cardFace.cardFace})no-repeat center/contain`
+            switch (cardFace.color) {
+                case 'green':
+                    removeNumCard(greenFirst, greenSecond, greenThird)
+                    break
+                case 'brown':
+                    removeNumCard(brownFirst, brownSecond, brownThird)
+                    break
+                case 'blue':
+                    removeNumCard(blueFirst, blueSecond, blueThird)
+                    break
+            }
+        }
+
+    })
+
+}
+
+mainFunc()
 
 function stageOfDifficulty(arr, numArr, difficulty) {
     arr = cards[numArr].filter((el) => el.difficulty !== difficulty)
     return arr
 }
-//переделать на функции во всех уровнях сложности!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function chooseDifficulty(difficulty) {
-    // let allCard = [];
-    brownDiff = [];
-    blueDiff = [];
-    greenDiff = [];
-    switch (difficulty) {
 
-        case 'veryEasy':
-            cards[0].forEach((el) => {
-                if (el.difficulty == 'easy') {
-                    brownDiff.push(el);
-                }
-            })
+function chooseDifficulty(difficultyy) {            // собираем карты по сложности
+    let brownDiff = [];
+    let greenDiff = [];
+    let blueDiff = [];
 
-            cards[1].forEach((el) => {
-                if (el.difficulty == 'easy') {
-                    blueDiff.push(el);
-                }
-            })
-
-            cards[2].forEach((el) => {
-                if (el.difficulty == 'easy') {
-                    greenDiff.push(el);
-                }
-            })
-            break
-        case 'easy':
-            brownDiff = cards[0].filter((el) => el.difficulty !== 'hard')
-            blueDiff = cards[1].filter((el) => el.difficulty !== 'hard')
+    if (difficultyy == "veryEasy") {
+        return [
+            brownDiff = cards[0].filter((el) => el.difficulty == 'easy'),
+            blueDiff = cards[1].filter((el) => el.difficulty == 'easy'),
+            greenDiff = cards[2].filter((el) => el.difficulty == 'easy')
+        ]
+    } else if (difficultyy == "easy") {
+        return [
+            brownDiff = cards[0].filter((el) => el.difficulty !== 'hard'),
+            blueDiff = cards[1].filter((el) => el.difficulty !== 'hard'),
             greenDiff = cards[2].filter((el) => el.difficulty !== 'hard')
-
-            break
-        case 'medium':
-            brownDiff = [...cards[0]]
-            blueDiff = [...cards[1]]
+        ]
+    } else if (difficultyy == "normal") {
+        return [
+            brownDiff = [...cards[0]],
+            blueDiff = [...cards[1]],
             greenDiff = [...cards[2]]
-            break
-        case 'hard':
-            brownDiff = cards[0].filter((el) => el.difficulty !== 'easy')
-            blueDiff = cards[1].filter((el) => el.difficulty !== 'easy')
+        ]
+    } else if (difficultyy == "hard") {
+        return [
+            brownDiff = cards[0].filter((el) => el.difficulty !== 'easy'),
+            blueDiff = cards[1].filter((el) => el.difficulty !== 'easy'),
             greenDiff = cards[2].filter((el) => el.difficulty !== 'easy')
-            break
-        case 'veryHard':
-            cards[0].forEach((el) => {
-                if (el.difficulty == 'hard') {
-                    brownDiff.push(el);
-                }
-            })
-
-            cards[1].forEach((el) => {
-                if (el.difficulty == 'hard') {
-                    blueDiff.push(el);
-                }
-            })
-
-            cards[2].forEach((el) => {
-                if (el.difficulty == 'hard') {
-                    greenDiff.push(el);
-                }
-            })
-            break
+        ]
+    } else if (difficultyy == "veryHard") {
+        return [
+            brownDiff = cards[0].filter((el) => el.difficulty == 'hard'),
+            blueDiff = cards[1].filter((el) => el.difficulty == 'hard'),
+            greenDiff = cards[2].filter((el) => el.difficulty == 'hard')
+        ]
     }
-    console.log(brownDiff)
-    console.log(blueDiff)//                
-    console.log(greenDiff)
-
 }
 
 function addCard(numCardForPush, arrCard) {    //делаем массив с обработанными картами
@@ -202,7 +212,6 @@ function addCard(numCardForPush, arrCard) {    //делаем массив с о
     }
     return scoupCard
 }
-
 
 function shuffle(arr) {    //метод сортировки массива
     let j;
@@ -216,17 +225,111 @@ function shuffle(arr) {    //метод сортировки массива
     return arr;
 }
 
-function addMisssingCard(colorCard, colorDiff, additionalMassiv) {             // проверка хватает ли карт для замешивания
-    console.log(colorDiff.length)
-    console.log(colorCard.length)
-    if (colorDiff.length < colorCard.length) {
-        let i = colorCard.length - colorDiff.length
-        console.log(i)
+// проверка хватает ли карт для замешивания
+function addMisssingCard(colorCard, colorDiff, additionalMassiv) {
+    shuffle(additionalMassiv)
+    if (colorDiff.length < colorCard) {
+        let i = colorCard - colorDiff.length
         for (i; i > 0; i--) {
-            // console.log(additionalMassiv)
-            colorDiff.push(shuffle(additionalMassiv).pop);
+            colorDiff.push(addMisssingCard.pop);
         }
     }
 }
 
 
+function sortByStage(monster, color1, color2, color3) {     //раскладываем карты по колодам 
+    let firstStageCards = [];
+    let secondStageCards = [];
+    let thirdStageCards = [];
+    let firstStageScoupCard = [];
+    let secondStageScoupCard = [];
+    let thirdStageScoupCard = [];
+
+    switch (infoForShuffleTheDeck.god) {
+        case 'azathoth':
+            firstStageCards = monster[0].firstStage;
+            secondStageCards = monster[0].secondStage;
+            thirdStageCards = monster[0].thirdStage;
+            break
+        case 'cthulhu':
+            firstStageCards = monster[1].firstStage;
+            secondStageCards = monster[1].secondStage;
+            thirdStageCards = monster[1].thirdStage;
+            break
+        case 'iogSothoth':
+            firstStageCards = monster[2].firstStage;
+            secondStageCards = monster[2].secondStage;
+            thirdStageCards = monster[2].thirdStage;
+            break
+        case 'shubNiggurath':
+            firstStageCards = monster[3].firstStage;
+            secondStageCards = monster[3].secondStage;
+            thirdStageCards = monster[3].thirdStage;
+            break
+    }
+    for (let key in firstStageCards) {
+        if (key == 'greenCards') {
+            addCardOnDeck(firstStageCards[key], firstStageScoupCard, color1)
+            greenFirst.textContent = firstStageCards[key];
+        }
+        else if (key == 'blueCards') {
+            addCardOnDeck(firstStageCards[key], firstStageScoupCard, color2)
+            blueFirst.textContent = firstStageCards[key];
+        }
+        else if (key == 'brownCards') {
+            addCardOnDeck(firstStageCards[key], firstStageScoupCard, color3)
+            brownFirst.textContent = firstStageCards[key];
+        }
+    }
+    for (let key in secondStageCards) {
+        if (key == 'greenCards') {
+            addCardOnDeck(secondStageCards[key], secondStageScoupCard, color1)
+            greenSecond.textContent = secondStageCards[key];
+        }
+        else if (key == 'blueCards') {
+            addCardOnDeck(secondStageCards[key], secondStageScoupCard, color2)
+            blueSecond.textContent = secondStageCards[key];
+        }
+        else if (key == 'brownCards') {
+            addCardOnDeck(secondStageCards[key], secondStageScoupCard, color3)
+            brownSecond.textContent = secondStageCards[key];
+        }
+    }
+    for (let key in thirdStageCards) {
+        if (key == 'greenCards') {
+            addCardOnDeck(thirdStageCards[key], thirdStageScoupCard, color1)
+            greenThird.textContent = thirdStageCards[key];
+        }
+        else if (key == 'blueCards') {
+            addCardOnDeck(thirdStageCards[key], thirdStageScoupCard, color2)
+            blueThird.textContent = thirdStageCards[key];
+        }
+        else if (key == 'brownCards') {
+            addCardOnDeck(thirdStageCards[key], thirdStageScoupCard, color3)
+            brownThird.textContent = thirdStageCards[key];
+        }
+    }
+    shuffle(firstStageScoupCard)
+    shuffle(secondStageScoupCard)
+    shuffle(thirdStageScoupCard)
+
+    let shirt = firstStageScoupCard.concat(secondStageScoupCard, thirdStageScoupCard)
+
+    return shirt
+}
+
+
+function addCardOnDeck(numCard, endScoup, colorScoup) {    //добавляем карты в деку
+    for (let i = 0; numCard > i; i++) {
+        let i = colorScoup.pop()
+        endScoup.push(i)
+    }
+
+    return endScoup
+}
+
+function removeNumCard(first, second, third) {
+    if (first.textContent > 0) first.textContent = first.textContent - 1
+    else if (second.textContent > 0) second.textContent = second.textContent - 1
+    else if (third.textContent > 0) third.textContent = third.textContent - 1
+}  
