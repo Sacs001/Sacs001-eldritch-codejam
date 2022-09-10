@@ -36,7 +36,6 @@ let numListener = 0;
 let shirt = ''
 
 
-
 cards[0].forEach((el) => {
     if (el.difficulty == "normal") massiveWithCardMediumLevelBrown.push(el)
 })
@@ -332,4 +331,9 @@ function removeNumCard(first, second, third) {
     if (first.textContent > 0) first.textContent = first.textContent - 1
     else if (second.textContent > 0) second.textContent = second.textContent - 1
     else if (third.textContent > 0) third.textContent = third.textContent - 1
-}  
+}
+
+
+
+
+
